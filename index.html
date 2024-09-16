@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ניהול מערכות רישום ערלוי הכנסת אורחים</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://www.matara.pro/nedarimplus/Forms/Files/Pic/1395_logo.jpg">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50e3c2;
+            --text-color: #333;
+            --background-color: #f4f7f9;
+            --card-background: white;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+            display: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-align: center;
+        }
+
+        #datetime {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        .copy-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        #search {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            transition: all 0.3s ease;
+        }
+
+        #search:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .section {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            padding: 20px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            font-weight: 500;
+            text-align: center;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        #copyStatus {
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-right: 10px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .button-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>ניהול מערכת רישום נדרים פלוס</h1>
+            <div id="datetime"></div>
+        </header>
+        
+        <div class="copy-link">
+            <button onclick="copyToClipboard()">העתק לינק לפרסום</button>
+            <span id="copyStatus">הועתק בהצלחה!</span>
+        </div>
+        
+        <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">
+        
+        <div id="sections-container"></div>
+    </div>
+
+    <script>
+        const PASSWORD = "04880";
+        const CLIPBOARD_LINK = "https://www.matara.pro/nedarimplus/online/?mosad=7007229";
+
+        const sections = [
+            {
+                title: "ניהול כללי",
+                buttons: [
+                    { text: "ממשק ניהול כללי", link: "https://matara.pro/nedarimplus/Reports" },
+                    { text: "קול כשר - מערכת טלפונית", link: "http://www.kolkasher.co.il/" },
+                ]
+            },
+            {
+                title: "הכנסת אורחים",
+                buttons: [
+                    { text: "הפצה - הכנסת אורחים", link: "https://nedar.im/F1395" },
+                    { text: "מזומן - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?Mezuman=1" },
+                    { text: "ניהול - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?admin=1" }
+                ]
+            },
+            {
+                title: "עונג יו''ט",
+                buttons: [
+                    { text: "הפצה - עונג יוט", link: "https://nedar.im/F2667" },
+                    { text: "מזומן - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?m=1" },
+                    { text: "ניהול - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?admin=1" }
+                ]
+            },
+            {
+                title: "הסעות",
+                buttons: [
+                    { text: "הפצה - הסעות", link: "https://nedar.im/F2106" },
+                    { text: "מזומן- הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?num=1" },
+                    { text: "ניהול - הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?admin=1" }
+                ]
+            },
+            {
+                title: "קימחא דפיסחא",
+                buttons: [
+                    { text: "הפצה - קימחא דפיסחא", link: "https://nedar.im/F2538" },
+                    { text: "ניהול - קימחא דפיסחא", link: "https://matara.pro/nedarimplus/Forms/2538.html?admin=1" }
+                ]
+            },
+            {
+                title: "מפי עוללים",
+                buttons: [
+                    { text: "הפצה - מפי עוללים", link: "https://nedar.im/F2896" },
+                    { text: "ניהול - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?admin=1" }
+                ]
+            },
+        ];
+
+        function checkPassword() {
+            const password = prompt("הכנס סיסמא כדי להיכנס:");
+            if (password === PASSWORD) {
+                document.body.style.display = "block";
+                updateDateTime();
+                setInterval(updateDateTime, 1000);
+            } else {
+                alert("סיסמא לא נכונה!");
+                window.location.reload();
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('datetime').textContent = now.toLocaleString('he-IL', options);
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(CLIPBOARD_LINK)
+                .then(() => {
+                    const copyStatus = document.getElementById('copyStatus');
+                    copyStatus.style.display = 'inline';
+                    setTimeout(() => {
+                        copyStatus.style.display = 'none';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('שגיאה בהעתקת הטקסט: ', err);
+                    alert('לא הצלחנו להעתיק את הלינק. אנא נסה שוב.');
+                });
+        }
+
+        function renderSections(filteredSections = sections) {
+            const sectionsContainer = document.getElementById('sections-container');
+            sectionsContainer.innerHTML = '';
+
+            filteredSections.forEach(section => {
+                const sectionElement = document.createElement('div');
+                sectionElement.className = 'section';
+
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.textContent = section.title;
+                sectionElement.appendChild(sectionTitle);
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = 'button-container';
+
+                section.buttons.forEach(buttonInfo => {
+                    const button = document.createElement('button');
+                    button.textContent = buttonInfo.text;
+                    button.onclick = () => window.open(buttonInfo.link, '_blank');
+                    buttonContainer.appendChild(button);
+                });
+
+                sectionElement.appendChild(buttonContainer);
+                sectionsContainer.appendChild(sectionElement);
+            });
+        }
+
+        document.getElementById('search').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredSections = sections.filter(section => 
+                section.title.toLowerCase().includes(searchTerm) || 
+                section.buttons.some(button => button.text.toLowerCase().includes(searchTerm))
+            );
+            renderSections(filteredSections);
+        });
+
+        window.onload = function() {
+            checkPassword();
+            renderSections();
+        };
+    </script>
+</body>
+
+</html>

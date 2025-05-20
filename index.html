@@ -7,10 +7,206 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://www.matara.pro/nedarimplus/Forms/Files/Pic/1395_logo.jpg">
     <style>
-        /* כאן נשאר כל ה-CSS שלך בדיוק כמו ששלחת - לא שיניתי כלום */
-        /* [חסכתי מקום בתגובה, אם אתה רוצה שאשלח גם את ה-CSS שוב תגיד לי] */
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50e3c2;
+            --text-color: #333;
+            --background-color: #f4f7f9;
+            --card-background: white;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+            display: flex; /* Use flexbox for centering */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure full viewport height */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            margin-bottom: 30px;
+            display: flex; /* Added for button alignment */
+            justify-content: space-between; /* Added for button alignment */
+            align-items: center; /* Vertically center items */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-align: center;
+        }
+
+        #datetime {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        .copy-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        #search {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            transition: all 0.3s ease;
+        }
+
+        #search:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .section {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            padding: 20px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            font-weight: 500;
+            text-align: center;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        #copyStatus {
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-right: 10px;
+            display: none;
+        }
+
+        /* Login Screen Styles */
+        #login-container {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        #login-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        #login-container input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            transition: all 0.3s ease;
+        }
+
+        #login-container input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        #login-container button {
+            width: 100%;
+        }
+
+        #login-error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        #logout-button { /* Added styles for the logout button */
+            background-color: #dc3545; /* Red background */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        #logout-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+
+        @media (max-width: 768px) {
+            .button-container {
+                grid-template-columns: 1fr;
+            }
+             #login-container {
+                width: 100%;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="container" id="login-container">
         <h2>כניסה למערכת</h2>
@@ -27,17 +223,17 @@
     <div class="container" id="main-content" style="display: none;">
         <header>
             <h1>ניהול מערכת רישום נדרים פלוס</h1>
-            <button id="logout-button" onclick="logout()">🔒 יציאה</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div id="datetime"></div>
+                <button id="logout-button" onclick="logout()">יציאה</button>  </div>
         </header>
-
-        <div id="datetime"></div>
 
         <div class="copy-link">
             <button onclick="copyToClipboard()">העתק לינק לפרסום</button>
             <span id="copyStatus">הועתק בהצלחה!</span>
         </div>
 
-        <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור..." oninput="handleSearch()">
+        <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">
 
         <div id="sections-container"></div>
     </div>
@@ -95,7 +291,7 @@
                     { text: "ניהול - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?admin=1" }
                 ]
             },
-            {
+             {
                 title: "מכירת ספרים",
                 buttons: [
                     { text: "הפצה - מכירת ספרים ", link: "https://nedar.im/F3363" },
@@ -131,9 +327,10 @@
             username = "";
             document.getElementById('main-content').style.display = 'none';
             document.getElementById('login-container').style.display = 'block';
-            document.getElementById('username').value = "";
+            document.getElementById('username').value = ""; // Clear input fields
             document.getElementById('password').value = "";
         }
+
 
         function updateDateTime() {
             const now = new Date();
@@ -174,9 +371,7 @@
                 section.buttons.forEach(buttonInfo => {
                     const button = document.createElement('button');
                     button.textContent = buttonInfo.text;
-                    button.onclick = () => {
-                        window.open(buttonInfo.link, '_blank');
-                    };
+                    button.onclick = () => window.open(buttonInfo.link, '_blank');
                     buttonContainer.appendChild(button);
                 });
 
@@ -185,14 +380,29 @@
             });
         }
 
-        function handleSearch() {
-            const searchValue = document.getElementById('search').value.toLowerCase();
-            const filtered = sections.filter(section => {
-                return section.title.toLowerCase().includes(searchValue) ||
-                    section.buttons.some(btn => btn.text.toLowerCase().includes(searchValue));
-            });
-            renderSections(filtered);
-        }
+        document.getElementById('search').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredSections = sections.filter(section =>
+                section.title.toLowerCase().includes(searchTerm) ||
+                section.buttons.some(button => button.text.toLowerCase().includes(searchTerm))
+            );
+            renderSections(filteredSections);
+        });
+
+        window.onload = function () {
+           // אם הסיסמה נכונה, הצג את התוכן הראשי.
+           if (isPasswordCorrect) {
+               document.getElementById('login-container').style.display = 'none';
+               document.getElementById('main-content').style.display = 'block';
+               updateDateTime();
+               setInterval(updateDateTime, 1000);
+               renderSections();
+           } else {
+               // अदरवाइज, शो लॉगिन स्क्रीन
+               document.getElementById('login-container').style.display = 'block';
+               document.getElementById('main-content').style.display = 'none';
+           }
+        };
     </script>
 </body>
 </html>

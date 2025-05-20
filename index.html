@@ -1,901 +1,844 @@
 <!DOCTYPE html>
+
 <html lang="he" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ניהול מערכות רישום ערלוי הכנסת אורחים</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="https://www.matara.pro/nedarimplus/Forms/Files/Pic/1395_logo.jpg">
-    <style>
-        :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #50e3c2;
-            --highlight-color: #f57c00;
-            --text-color: #333;
-            --background-color: #f4f7f9;
-            --card-background: white;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-        }
 
-        body {
-            font-family: 'Rubik', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    <meta charset="UTF-8">
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px var(--shadow-color);
-            margin-bottom: 30px;
-            display: flex;
-            flex-direction: column; /* Changed to column for better stacking on smaller screens */
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            text-align: center;
-        }
+    <title>ניהול מערכות רישום ערלוי הכנסת אורחים</title>
 
-        h1 {
-            font-size: 2.5em;
-            margin: 0;
-            text-align: center;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-        #logout-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: var(--highlight-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.95em;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
+    <link rel="icon" href="https://www.matara.pro/nedarimplus/Forms/Files/Pic/1395_logo.jpg">
 
-        #logout-button:hover {
-            background-color: #e65100;
-            transform: translateY(-2px);
-        }
+    <style>
 
-        #datetime {
-            text-align: center;
-            font-size: 1.2em;
-            margin-top: 10px;
-            opacity: 0.8;
-            color: white; /* Ensure datetime is visible against the gradient */
-        }
+        :root {
 
-        .copy-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 40px 0 20px;
-            gap: 20px;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-        }
+            --primary-color: #4a90e2;
 
-        #copyStatus {
-            color: var(--primary-color); /* Changed to primary color for visibility */
-            font-weight: bold;
-            display: none;
-        }
+            --secondary-color: #50e3c2;
 
-        #search {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 25px;
-            border: 1px solid #ddd;
-            font-size: 1em;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            transition: all 0.3s ease;
-            text-align: right; /* Align placeholder text to the right for RTL */
-            direction: rtl; /* Ensure input direction is RTL */
-        }
+            --highlight-color: #f57c00;
 
-        #search:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--primary-color);
-        }
+            --text-color: #333;
 
-        .section {
-            background-color: var(--card-background);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px var(--shadow-color);
-            padding: 20px;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
-        }
+            --background-color: #f4f7f9;
 
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px var(--shadow-color);
-        }
+            --card-background: white;
 
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 10px;
-            margin-top: 0;
-            text-align: center; /* Center section titles */
-        }
+            --shadow-color: rgba(0, 0, 0, 0.1);
 
-        .button-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        /* Enforce 3 columns for buttons on larger screens */
-        @media (min-width: 769px) {
-            .button-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
+        }
 
 
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1em;
-            font-weight: 500;
-            text-align: center;
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
 
-        button:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--shadow-color);
-        }
+        body {
 
-        /* Login styles */
-        #login-container {
-            background-color: var(--card-background);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px var(--shadow-color);
-            padding: 30px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-sizing: border-box; /* Include padding in element's total width and height */
-        }
+            font-family: 'Rubik', sans-serif;
 
-        #login-container h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
+            background-color: var(--background-color);
 
-        #login-container input {
-            width: calc(100% - 24px); /* Account for padding */
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 25px;
-            border: 1px solid #ddd;
-            font-size: 1em;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            transition: all 0.3s ease;
-            text-align: right; /* Align input text to the right for RTL */
-            direction: rtl; /* Ensure input direction is RTL */
-        }
+            color: var(--text-color);
 
-        #login-container input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--primary-color);
-        }
+            line-height: 1.6;
 
-        #login-container button {
-            width: 100%;
-        }
+            padding: 20px;
 
-        #login-error {
-            color: red;
-            margin-top: 10px;
-            text-align: center;
-            display: none;
-        }
+            margin: 0;
 
-        @media (max-width: 768px) {
-            .button-container {
-                grid-template-columns: 1fr;
-            }
+            display: flex;
 
-            #login-container {
-                width: 100%;
-            }
+            justify-content: center;
 
-            #logout-button {
-                top: 10px;
-                right: 10px;
-                padding: 8px 12px; /* Adjust padding for smaller screens */
-                font-size: 0.85em; /* Adjust font size for smaller screens */
-            }
+            align-items: center;
 
-            .copy-link {
-                flex-direction: column;
-                gap: 10px;
-            }
+            min-height: 100vh;
 
-            header h1 {
-                font-size: 2em; /* Adjust header font size for smaller screens */
-            }
-        }
-    </style>
+        }
+
+
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 20px;
+
+            position: relative;
+
+        }
+
+
+
+        header {
+
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+
+            color: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 4px 6px var(--shadow-color);
+
+            margin-bottom: 30px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            position: relative;
+
+        }
+
+
+
+        h1 {
+
+            font-size: 2.5em;
+
+            margin: 0;
+
+            text-align: center;
+
+        }
+
+
+
+        #logout-button {
+
+            position: absolute;
+
+            top: 20px;
+
+            right: 20px;
+
+            background-color: var(--highlight-color);
+
+            color: white;
+
+            border: none;
+
+            padding: 10px 15px;
+
+            border-radius: 25px;
+
+            cursor: pointer;
+
+            font-size: 0.95em;
+
+            transition: background-color 0.3s ease;
+
+            box-shadow: 0 2px 4px var(--shadow-color);
+
+        }
+
+
+
+        #logout-button:hover {
+
+            background-color: #e65100;
+
+        }
+
+
+
+        #datetime {
+
+            text-align: center;
+
+            font-size: 1.2em;
+
+            margin-top: 10px;
+
+            opacity: 0.8;
+
+        }
+
+
+
+        .copy-link {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin: 40px 0 20px;
+
+            gap: 20px;
+
+        }
+
+
+
+        #copyStatus {
+
+            color: var(--secondary-color);
+
+            font-weight: bold;
+
+            display: none;
+
+        }
+
+
+
+        #search {
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-bottom: 20px;
+
+            border-radius: 25px;
+
+            border: 1px solid #ddd;
+
+            font-size: 1em;
+
+            box-shadow: 0 2px 4px var(--shadow-color);
+
+            transition: all 0.3s ease;
+
+        }
+
+
+
+        #search:focus {
+
+            outline: none;
+
+            box-shadow: 0 0 0 2px var(--primary-color);
+
+        }
+
+
+
+        .section {
+
+            background-color: var(--card-background);
+
+            border-radius: 10px;
+
+            box-shadow: 0 4px 6px var(--shadow-color);
+
+            padding: 20px;
+
+            margin-bottom: 30px;
+
+            transition: all 0.3s ease;
+
+        }
+
+
+
+        .section:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow: 0 6px 12px var(--shadow-color);
+
+        }
+
+
+
+        h2 {
+
+            color: var(--primary-color);
+
+            border-bottom: 2px solid var(--secondary-color);
+
+            padding-bottom: 10px;
+
+            margin-top: 0;
+
+        }
+
+
+
+        .button-container {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 15px;
+
+            margin-top: 20px;
+
+        }
+
+
+
+        button {
+
+            background-color: var(--primary-color);
+
+            color: white;
+
+            border: none;
+
+            padding: 12px 20px;
+
+            border-radius: 25px;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+
+            font-size: 1em;
+
+            font-weight: 500;
+
+            text-align: center;
+
+            box-shadow: 0 2px 4px var(--shadow-color);
+
+        }
+
+
+
+        button:hover {
+
+            background-color: var(--secondary-color);
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 4px 8px var(--shadow-color);
+
+        }
+
+
+
+        /* Login styles */
+
+        #login-container {
+
+            background-color: var(--card-background);
+
+            border-radius: 10px;
+
+            box-shadow: 0 4px 6px var(--shadow-color);
+
+            padding: 30px;
+
+            text-align: center;
+
+            max-width: 400px;
+
+            width: 90%;
+
+        }
+
+
+
+        #login-container h2 {
+
+            color: var(--primary-color);
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        #login-container input {
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-bottom: 20px;
+
+            border-radius: 25px;
+
+            border: 1px solid #ddd;
+
+            font-size: 1em;
+
+            box-shadow: 0 2px 4px var(--shadow-color);
+
+            transition: all 0.3s ease;
+
+        }
+
+
+
+        #login-container input:focus {
+
+            outline: none;
+
+            box-shadow: 0 0 0 2px var(--primary-color);
+
+        }
+
+
+
+        #login-container button {
+
+            width: 100%;
+
+        }
+
+
+
+        #login-error {
+
+            color: red;
+
+            margin-top: 10px;
+
+            text-align: center;
+
+            display: none;
+
+        }
+
+
+
+        @media (max-width: 768px) {
+
+            .button-container {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+
+            #login-container {
+
+                width: 100%;
+
+            }
+
+
+
+            #logout-button {
+
+                top: 10px;
+
+                right: 10px;
+
+            }
+
+
+
+            .copy-link {
+
+                flex-direction: column;
+
+                gap: 10px;
+
+            }
+
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <div class="container" id="login-container">
-        <h2>כניסה למערכת</h2>
-        <input type="text" id="username" placeholder="שם משתמש">
-        <input type="password" id="password" placeholder="סיסמה">
-        <div id="login-error"></div>
-        <button onclick="login()">כניסה</button>
-        <p style="margin-top: 20px; font-size: 0.9em;">
-            לא מצליחים להיכנס? נא לפנות ל
-            <a href="mailto:h0556764462@gmail.com">h0556764462@gmail.com</a>
-        </p>
-    </div>
-
-    <div class="container" id="main-content" style="display: none;">
-        <header>
-            <h1>ניהול מערכת רישום נדרים פלוס</h1>
-            <div id="datetime"></div>
-            <button id="logout-button" onclick="logout()">🔒 יציאה</button>
-        </header>
-
-        <div class="copy-link">
-            <button onclick="copyToClipboard()">העתק לינק לפרסום</button>
-            <span id="copyStatus">הועתק בהצלחה!</span>
-        </div>
-
-        <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">
-
-        <div id="sections-container"></div>
-    </div>
-
-    <script>
-        const PASSWORD = "04880";
-        const USERNAME = "ערלוי";
-        const CLIPBOARD_LINK = "https://www.matara.pro/nedarimplus/online/?mosad=7007229";
-
-        const sections = [
-            {
-                title: "ניהול כללי",
-                buttons: [
-                    { text: "ממשק ניהול כללי", link: "https://matara.pro/nedarimplus/Reports" },
-                    { text: "קול כשר - מערכת טלפונית", link: "http://www.kolkasher.co.il/" },
-                    { text: "תשלום חובות הכנסת אורחים ", link: "https://nedar.im/Lvom" },
-                ]
-            },
-            {
-                title: "הכנסת אורחים",
-                buttons: [
-                    { text: "הפצה - הכנסת אורחים", link: "https://nedar.im/F1395" },
-                    { text: "מזומן - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?Mezuman=1" },
-                    { text: "ניהול - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?admin=1" }
-                ]
-            },
-            {
-                title: "עונג יו''ט",
-                buttons: [
-                    { text: "הפצה - עונג יוט", link: "https://nedar.im/F2667" },
-                    { text: "מזומן - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?m=1" },
-                    { text: "ניהול - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?admin=1" }
-                ]
-            },
-            {
-                title: "הסעות",
-                buttons: [
-                    { text: "הפצה - הסעות", link: "https://nedar.im/F2106" },
-                    { text: "מזומן- הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?num=1" },
-                    { text: "ניהול - הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?admin=1" }
-                ]
-            },
-            {
-                title: "קימחא דפיסחא",
-                buttons: [
-                    { text: "הפצה - קימחא דפיסחא", link: "https://nedar.im/F2538" },
-                    { text: "ניהול - קימחא דפיסחא", link: "https://matara.pro/nedarimplus/Forms/2538.html?admin=1" }
-                ]
-            },
-            {
-                title: "מפי עוללים",
-                buttons: [
-                    { text: "הפצה - מפי עוללים", link: "https://nedar.im/F2896" },
-                    { text: "מזומן - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?num=1" },
-                    { text: "ניהול - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?admin=1" }
-                ]
-            },
-             {
-                title: "מכירת ספרים",
-                buttons: [
-                    { text: "הפצה - מכירת ספרים ", link: "https://nedar.im/F3363" },
-                    { text: "מזומן - מכירת ספרים ", link: "https://matara.pro/nedarimplus/Forms/3363.html?m=1" },
-                    { text: "ניהול - מכירת ספרים", link: "https://matara.pro/nedarimplus/Forms/3363.html?admin=1" }
-                ]
-            },
-        ];
-
-        let isPasswordCorrect = false;
-        let username = "";
-
-        function login() {
-            username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('login-error');
-
-            if (username === USERNAME && password === PASSWORD) {
-                isPasswordCorrect = true;
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                updateDateTime();
-                setInterval(updateDateTime, 1000);
-                renderSections();
-            } else {
-                errorDiv.textContent = 'שם משתמש או סיסמה שגויים. אנא נסה שוב.';
-                errorDiv.style.display = 'block';
-            }
-        }
-
-        function logout() {
-            isPasswordCorrect = false;
-            username = "";
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('login-container').style.display = 'block';
-            document.getElementById('username').value = "";
-            document.getElementById('password').value = "";
-            document.getElementById('login-error').style.display = 'none'; // Hide error on logout
-        }
-
-        function updateDateTime() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            document.getElementById('datetime').textContent = now.toLocaleString('he-IL', options);
-        }
-
-        function copyToClipboard() {
-            navigator.clipboard.writeText(CLIPBOARD_LINK)
-                .then(() => {
-                    const copyStatus = document.getElementById('copyStatus');
-                    copyStatus.style.display = 'inline';
-                    setTimeout(() => {
-                        copyStatus.style.display = 'none';
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('שגיאה בהעתקת הטקסט: ', err);
-                    alert('לא הצלחנו להעתיק את הלינק. אנא נסה שוב.');
-                });
-        }
-
-        function renderSections(filteredSections = sections) {
-            const sectionsContainer = document.getElementById('sections-container');
-            sectionsContainer.innerHTML = '';
-
-            filteredSections.forEach(section => {
-                const sectionElement = document.createElement('div');
-                sectionElement.className = 'section';
-
-                const sectionTitle = document.createElement('h2');
-                sectionTitle.textContent = section.title;
-                sectionElement.appendChild(sectionTitle);
-
-                const buttonContainer = document.createElement('div');
-                buttonContainer.className = 'button-container';
-
-                section.buttons.forEach(buttonInfo => {
-                    const button = document.createElement('button');
-                    button.textContent = buttonInfo.text;
-                    button.onclick = () => window.open(buttonInfo.link, '_blank');
-                    buttonContainer.appendChild(button);
-                });
-
-                sectionElement.appendChild(buttonContainer);
-                sectionsContainer.appendChild(sectionElement);
-            });
-        }
-
-        document.getElementById('search').addEventListener('input', function (e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredSections = sections.filter(section =>
-                section.title.toLowerCase().includes(searchTerm) ||
-                section.buttons.some(button => button.text.toLowerCase().includes(searchTerm))
-            );
-            renderSections(filteredSections);
-        });
-
-        window.onload = function () {
-            // This part of the code might be problematic if you want to persist login
-            // without using local storage or sessions. For a simple password check,
-            // the state will reset on page refresh.
-            // Keeping it as is, assuming a fresh login is desired on every page load.
-            if (isPasswordCorrect) { // This will always be false on page load unless managed by backend/localStorage
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                updateDateTime();
-                setInterval(updateDateTime, 1000);<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ניהול מערכות רישום ערלוי הכנסת אורחים</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="https://www.matara.pro/nedarimplus/Forms/Files/Pic/1395_logo.jpg">
-    <style>
-        :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #50e3c2;
-            --highlight-color: #f57c00;
-            --text-color: #333;
-            --background-color: #f4f7f9;
-            --card-background: white;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-        }
-
-        body {
-            font-family: 'Rubik', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px var(--shadow-color);
-            margin-bottom: 30px;
-            display: flex;
-            flex-direction: column; /* Changed to column for better stacking on smaller screens */
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin: 0;
-            text-align: center;
-        }
-
-        #logout-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: var(--highlight-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.95em;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
-
-        #logout-button:hover {
-            background-color: #e65100;
-            transform: translateY(-2px);
-        }
-
-        #datetime {
-            text-align: center;
-            font-size: 1.2em;
-            margin-top: 10px;
-            opacity: 0.8;
-            color: white; /* Ensure datetime is visible against the gradient */
-        }
-
-        .copy-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 40px 0 20px;
-            gap: 20px;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-        }
-
-        #copyStatus {
-            color: var(--primary-color); /* Changed to primary color for visibility */
-            font-weight: bold;
-            display: none;
-        }
-
-        #search {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 25px;
-            border: 1px solid #ddd;
-            font-size: 1em;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            transition: all 0.3s ease;
-            text-align: right; /* Align placeholder text to the right for RTL */
-            direction: rtl; /* Ensure input direction is RTL */
-        }
-
-        #search:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--primary-color);
-        }
-
-        .section {
-            background-color: var(--card-background);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px var(--shadow-color);
-            padding: 20px;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px var(--shadow-color);
-        }
-
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 10px;
-            margin-top: 0;
-            text-align: center; /* Center section titles */
-        }
-
-        .button-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        /* Enforce 3 columns for buttons on larger screens */
-        @media (min-width: 769px) {
-            .button-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1em;
-            font-weight: 500;
-            text-align: center;
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
-
-        button:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--shadow-color);
-        }
-
-        /* Login styles */
-        #login-container {
-            background-color: var(--card-background);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px var(--shadow-color);
-            padding: 30px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-sizing: border-box; /* Include padding in element's total width and height */
-        }
-
-        #login-container h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        #login-container input {
-            width: calc(100% - 24px); /* Account for padding */
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 25px;
-            border: 1px solid #ddd;
-            font-size: 1em;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            transition: all 0.3s ease;
-            text-align: right; /* Align input text to the right for RTL */
-            direction: rtl; /* Ensure input direction is RTL */
-        }
-
-        #login-container input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--primary-color);
-        }
-
-        #login-container button {
-            width: 100%;
-        }
-
-        #login-error {
-            color: red;
-            margin-top: 10px;
-            text-align: center;
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .button-container {
-                grid-template-columns: 1fr;
-            }
-
-            #login-container {
-                width: 100%;
-            }
-
-            #logout-button {
-                top: 10px;
-                right: 10px;
-                padding: 8px 12px; /* Adjust padding for smaller screens */
-                font-size: 0.85em; /* Adjust font size for smaller screens */
-            }
-
-            .copy-link {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            header h1 {
-                font-size: 2em; /* Adjust header font size for smaller screens */
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container" id="login-container">
-        <h2>כניסה למערכת</h2>
-        <input type="text" id="username" placeholder="שם משתמש">
-        <input type="password" id="password" placeholder="סיסמה">
-        <div id="login-error"></div>
-        <button onclick="login()">כניסה</button>
-        <p style="margin-top: 20px; font-size: 0.9em;">
-            לא מצליחים להיכנס? נא לפנות ל
-            <a href="mailto:h0556764462@gmail.com">h0556764462@gmail.com</a>
-        </p>
-    </div>
-
-    <div class="container" id="main-content" style="display: none;">
-        <header>
-            <h1>ניהול מערכת רישום נדרים פלוס</h1>
-            <div id="datetime"></div>
-            <button id="logout-button" onclick="logout()">🔒 יציאה</button>
-        </header>
-
-        <div class="copy-link">
-            <button onclick="copyToClipboard()">העתק לינק לפרסום</button>
-            <span id="copyStatus">הועתק בהצלחה!</span>
-        </div>
-
-        <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">
-
-        <div id="sections-container"></div>
-    </div>
-
-    <script>
-        const PASSWORD = "04880";
-        const USERNAME = "ערלוי";
-        const CLIPBOARD_LINK = "https://www.matara.pro/nedarimplus/online/?mosad=7007229";
-
-        const sections = [
-            {
-                title: "ניהול כללי",
-                buttons: [
-                    { text: "ממשק ניהול כללי", link: "https://matara.pro/nedarimplus/Reports" },
-                    { text: "קול כשר - מערכת טלפונית", link: "http://www.kolkasher.co.il/" },
-                    { text: "תשלום חובות הכנסת אורחים ", link: "https://nedar.im/Lvom" },
-                ]
-            },
-            {
-                title: "הכנסת אורחים",
-                buttons: [
-                    { text: "הפצה - הכנסת אורחים", link: "https://nedar.im/F1395" },
-                    { text: "מזומן - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?Mezuman=1" },
-                    { text: "ניהול - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?admin=1" }
-                ]
-            },
-            {
-                title: "עונג יו''ט",
-                buttons: [
-                    { text: "הפצה - עונג יוט", link: "https://nedar.im/F2667" },
-                    { text: "מזומן - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?m=1" },
-                    { text: "ניהול - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?admin=1" }
-                ]
-            },
-            {
-                title: "הסעות",
-                buttons: [
-                    { text: "הפצה - הסעות", link: "https://nedar.im/F2106" },
-                    { text: "מזומן- הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?num=1" },
-                    { text: "ניהול - הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?admin=1" }
-                ]
-            },
-            {
-                title: "קימחא דפיסחא",
-                buttons: [
-                    { text: "הפצה - קימחא דפיסחא", link: "https://nedar.im/F2538" },
-                    { text: "ניהול - קימחא דפיסחא", link: "https://matara.pro/nedarimplus/Forms/2538.html?admin=1" }
-                ]
-            },
-            {
-                title: "מפי עוללים",
-                buttons: [
-                    { text: "הפצה - מפי עוללים", link: "https://nedar.im/F2896" },
-                    { text: "מזומן - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?num=1" },
-                    { text: "ניהול - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?admin=1" }
-                ]
-            },
-             {
-                title: "מכירת ספרים",
-                buttons: [
-                    { text: "הפצה - מכירת ספרים ", link: "https://nedar.im/F3363" },
-                    { text: "מזומן - מכירת ספרים ", link: "https://matara.pro/nedarimplus/Forms/3363.html?m=1" },
-                    { text: "ניהול - מכירת ספרים", link: "https://matara.pro/nedarimplus/Forms/3363.html?admin=1" }
-                ]
-            },
-        ];
-
-        let isPasswordCorrect = false;
-        let username = "";
-
-        function login() {
-            username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('login-error');
-
-            if (username === USERNAME && password === PASSWORD) {
-                isPasswordCorrect = true;
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                updateDateTime();
-                setInterval(updateDateTime, 1000);
-                renderSections();
-            } else {
-                errorDiv.textContent = 'שם משתמש או סיסמה שגויים. אנא נסה שוב.';
-                errorDiv.style.display = 'block';
-            }
-        }
-
-        function logout() {
-            isPasswordCorrect = false;
-            username = "";
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('login-container').style.display = 'block';
-            document.getElementById('username').value = "";
-            document.getElementById('password').value = "";
-            document.getElementById('login-error').style.display = 'none'; // Hide error on logout
-        }
-
-        function updateDateTime() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            document.getElementById('datetime').textContent = now.toLocaleString('he-IL', options);
-        }
-
-        function copyToClipboard() {
-            navigator.clipboard.writeText(CLIPBOARD_LINK)
-                .then(() => {
-                    const copyStatus = document.getElementById('copyStatus');
-                    copyStatus.style.display = 'inline';
-                    setTimeout(() => {
-                        copyStatus.style.display = 'none';
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('שגיאה בהעתקת הטקסט: ', err);
-                    alert('לא הצלחנו להעתיק את הלינק. אנא נסה שוב.');
-                });
-        }
-
-        function renderSections(filteredSections = sections) {
-            const sectionsContainer = document.getElementById('sections-container');
-            sectionsContainer.innerHTML = '';
-
-            filteredSections.forEach(section => {
-                const sectionElement = document.createElement('div');
-                sectionElement.className = 'section';
-
-                const sectionTitle = document.createElement('h2');
-                sectionTitle.textContent = section.title;
-                sectionElement.appendChild(sectionTitle);
-
-                const buttonContainer = document.createElement('div');
-                buttonContainer.className = 'button-container';
-
-                section.buttons.forEach(buttonInfo => {
-                    const button = document.createElement('button');
-                    button.textContent = buttonInfo.text;
-                    button.onclick = () => window.open(buttonInfo.link, '_blank');
-                    buttonContainer.appendChild(button);
-                });
-
-                sectionElement.appendChild(buttonContainer);
-                sectionsContainer.appendChild(sectionElement);
-            });
-        }
-
-        document.getElementById('search').addEventListener('input', function (e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredSections = sections.filter(section =>
-                section.title.toLowerCase().includes(searchTerm) ||
-                section.buttons.some(button => button.text.toLowerCase().includes(searchTerm))
-            );
-            renderSections(filteredSections);
-        });
-
-        window.onload = function () {
-            // This part of the code might be problematic if you want to persist login
-            // without using local storage or sessions. For a simple password check,
-            // the state will reset on page refresh.
-            // Keeping it as is, assuming a fresh login is desired on every page load.
-            if (isPasswordCorrect) { // This will always be false on page load unless managed by backend/localStorage
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                updateDateTime();
-                setInterval(updateDateTime, 1000);
-                renderSections();
-            } else {
-                document.getElementById('login-container').style.display = 'block';
-                document.getElementById('main-content').style.display = 'none';
-            }
-        };
-    </script>
+
+    <div class="container" id="login-container">
+
+        <h2>כניסה למערכת</h2>
+
+        <input type="text" id="username" placeholder="שם משתמש">
+
+        <input type="password" id="password" placeholder="סיסמה">
+
+        <div id="login-error"></div>
+
+        <button onclick="login()">כניסה</button>
+
+        <p style="margin-top: 20px; font-size: 0.9em;">
+
+            לא מצליחים להיכנס? נא לפנות ל
+
+            <a href="mailto:h0556764462@gmail.com">h0556764462@gmail.com</a>
+
+        </p>
+
+    </div>
+
+
+
+    <div class="container" id="main-content" style="display: none;">
+
+        <header>
+
+            <h1>ניהול מערכת רישום נדרים פלוס</h1>
+
+            <button id="logout-button" onclick="logout()">🔒 יציאה</button>
+
+        </header>
+
+
+
+        <div id="datetime"></div>
+
+
+
+        <div class="copy-link">
+
+            <button onclick="copyToClipboard()">העתק לינק לפרסום</button>
+
+            <span id="copyStatus">הועתק בהצלחה!</span>
+
+        </div>
+
+
+
+        <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">
+
+
+
+        <div id="sections-container"></div>
+
+    </div>
+
+
+
+    <script>
+
+        const PASSWORD = "04880";
+
+        const USERNAME = "ערלוי";
+
+        const CLIPBOARD_LINK = "https://www.matara.pro/nedarimplus/online/?mosad=7007229";
+
+
+
+        const sections = [
+
+            {
+
+                title: "ניהול כללי",
+
+                buttons: [
+
+                    { text: "ממשק ניהול כללי", link: "https://matara.pro/nedarimplus/Reports" },
+
+                    { text: "קול כשר - מערכת טלפונית", link: "http://www.kolkasher.co.il/" },
+
+                    { text: "תשלום חובות הכנסת אורחים ", link: "https://nedar.im/Lvom" },
+
+                ]
+
+            },
+
+            {
+
+                title: "הכנסת אורחים",
+
+                buttons: [
+
+                    { text: "הפצה - הכנסת אורחים", link: "https://nedar.im/F1395" },
+
+                    { text: "מזומן - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?Mezuman=1" },
+
+                    { text: "ניהול - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?admin=1" }
+
+                ]
+
+            },
+
+            {
+
+                title: "עונג יו''ט",
+
+                buttons: [
+
+                    { text: "הפצה - עונג יוט", link: "https://nedar.im/F2667" },
+
+                    { text: "מזומן - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?m=1" },
+
+                    { text: "ניהול - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?admin=1" }
+
+                ]
+
+            },
+
+            {
+
+                title: "הסעות",
+
+                buttons: [
+
+                    { text: "הפצה - הסעות", link: "https://nedar.im/F2106" },
+
+                    { text: "מזומן- הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?num=1" },
+
+                    { text: "ניהול - הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?admin=1" }
+
+                ]
+
+            },
+
+            {
+
+                title: "קימחא דפיסחא",
+
+                buttons: [
+
+                    { text: "הפצה - קימחא דפיסחא", link: "https://nedar.im/F2538" },
+
+                    { text: "ניהול - קימחא דפיסחא", link: "https://matara.pro/nedarimplus/Forms/2538.html?admin=1" }
+
+                ]
+
+            },
+
+            {
+
+                title: "מפי עוללים",
+
+                buttons: [
+
+                    { text: "הפצה - מפי עוללים", link: "https://nedar.im/F2896" },
+
+                    { text: "מזומן - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?num=1" },
+
+                    { text: "ניהול - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?admin=1" }
+
+                ]
+
+            },
+
+             {
+
+                title: "מכירת ספרים",
+
+                buttons: [
+
+                    { text: "הפצה - מכירת ספרים ", link: "https://nedar.im/F3363" },
+
+                    { text: "מזומן - מכירת ספרים ", link: "https://matara.pro/nedarimplus/Forms/3363.html?m=1" },
+
+                    { text: "ניהול - מכירת ספרים", link: "https://matara.pro/nedarimplus/Forms/3363.html?admin=1" }
+
+                ]
+
+            },
+
+        ];
+
+
+
+        let isPasswordCorrect = false;
+
+        let username = "";
+
+
+
+        function login() {
+
+            username = document.getElementById('username').value;
+
+            const password = document.getElementById('password').value;
+
+            const errorDiv = document.getElementById('login-error');
+
+
+
+            if (username === USERNAME && password === PASSWORD) {
+
+                isPasswordCorrect = true;
+
+                document.getElementById('login-container').style.display = 'none';
+
+                document.getElementById('main-content').style.display = 'block';
+
+                updateDateTime();
+
+                setInterval(updateDateTime, 1000);
+
+                renderSections();
+
+            } else {
+
+                errorDiv.textContent = 'שם משתמש או סיסמה שגויים. אנא נסה שוב.';
+
+                errorDiv.style.display = 'block';
+
+            }
+
+        }
+
+
+
+        function logout() {
+
+            isPasswordCorrect = false;
+
+            username = "";
+
+            document.getElementById('main-content').style.display = 'none';
+
+            document.getElementById('login-container').style.display = 'block';
+
+            document.getElementById('username').value = "";
+
+            document.getElementById('password').value = "";
+
+        }
+
+
+
+        function updateDateTime() {
+
+            const now = new Date();
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+
+            document.getElementById('datetime').textContent = now.toLocaleString('he-IL', options);
+
+        }
+
+
+
+        function copyToClipboard() {
+
+            navigator.clipboard.writeText(CLIPBOARD_LINK)
+
+                .then(() => {
+
+                    const copyStatus = document.getElementById('copyStatus');
+
+                    copyStatus.style.display = 'inline';
+
+                    setTimeout(() => {
+
+                        copyStatus.style.display = 'none';
+
+                    }, 2000);
+
+                })
+
+                .catch(err => {
+
+                    console.error('שגיאה בהעתקת הטקסט: ', err);
+
+                    alert('לא הצלחנו להעתיק את הלינק. אנא נסה שוב.');
+
+                });
+
+        }
+
+
+
+        function renderSections(filteredSections = sections) {
+
+            const sectionsContainer = document.getElementById('sections-container');
+
+            sectionsContainer.innerHTML = '';
+
+
+
+            filteredSections.forEach(section => {
+
+                const sectionElement = document.createElement('div');
+
+                sectionElement.className = 'section';
+
+
+
+                const sectionTitle = document.createElement('h2');
+
+                sectionTitle.textContent = section.title;
+
+                sectionElement.appendChild(sectionTitle);
+
+
+
+                const buttonContainer = document.createElement('div');
+
+                buttonContainer.className = 'button-container';
+
+
+
+                section.buttons.forEach(buttonInfo => {
+
+                    const button = document.createElement('button');
+
+                    button.textContent = buttonInfo.text;
+
+                    button.onclick = () => window.open(buttonInfo.link, '_blank');
+
+                    buttonContainer.appendChild(button);
+
+                });
+
+
+
+                sectionElement.appendChild(buttonContainer);
+
+                sectionsContainer.appendChild(sectionElement);
+
+            });
+
+        }
+
+
+
+        document.getElementById('search').addEventListener('input', function (e) {
+
+            const searchTerm = e.target.value.toLowerCase();
+
+            const filteredSections = sections.filter(section =>
+
+                section.title.toLowerCase().includes(searchTerm) ||
+
+                section.buttons.some(button => button.text.toLowerCase().includes(searchTerm))
+
+            );
+
+            renderSections(filteredSections);
+
+        });
+
+
+
+        window.onload = function () {
+
+            if (isPasswordCorrect) {
+
+                document.getElementById('login-container').style.display = 'none';
+
+                document.getElementById('main-content').style.display = 'block';
+
+                updateDateTime();
+
+                setInterval(updateDateTime, 1000);
+
+                renderSections();
+
+            } else {
+
+                document.getElementById('login-container').style.display = 'block';
+
+                document.getElementById('main-content').style.display = 'none';
+
+            }
+
+        };
+
+    </script>
+
 </body>
+
 </html>
-                renderSections();
-            } else {
-                document.getElementById('login-container').style.display = 'block';
-                document.getElementById('main-content').style.display = 'none';
-            }
-        };
-    </script>
-</body>
-</html>
+

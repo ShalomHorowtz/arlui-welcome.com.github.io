@@ -54,12 +54,14 @@
             font-size: 2.5em;
             margin: 0;
             text-align: center;
+            padding-right: 80px; /* Added padding to make space for the logout button */
         }
 
         #logout-button {
             position: absolute;
-            top: 20px;
+            top: 50%;
             right: 20px;
+            transform: translateY(-50%);
             background-color: var(--highlight-color);
             color: white;
             border: none;
@@ -135,7 +137,7 @@
 
         .button-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Changed to 3 columns */
             gap: 15px;
             margin-top: 20px;
         }
@@ -215,6 +217,12 @@
             #logout-button {
                 top: 10px;
                 right: 10px;
+                transform: translateY(0);
+            }
+
+            h1 {
+                font-size: 2em;
+                padding-right: 0;
             }
 
             .copy-link {
@@ -387,37 +395,5 @@
                 section.buttons.forEach(buttonInfo => {
                     const button = document.createElement('button');
                     button.textContent = buttonInfo.text;
-                    button.onclick = () => window.open(buttonInfo.link, '_blank');
-                    buttonContainer.appendChild(button);
-                });
-
-                sectionElement.appendChild(buttonContainer);
-                sectionsContainer.appendChild(sectionElement);
-            });
-        }
-
-        document.getElementById('search').addEventListener('input', function (e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredSections = sections.filter(section =>
-                section.title.toLowerCase().includes(searchTerm) ||
-                section.buttons.some(button => button.text.toLowerCase().includes(searchTerm))
-            );
-            renderSections(filteredSections);
-        });
-
-        window.onload = function () {
-            if (isPasswordCorrect) {
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                updateDateTime();
-                setInterval(updateDateTime, 1000);
-                renderSections();
-            } else {
-                document.getElementById('login-container').style.display = 'block';
-                document.getElementById('main-content').style.display = 'none';
-            }
-        };
-    </script>
-</body>
-</html>
+                    button.onclick = () =>
 

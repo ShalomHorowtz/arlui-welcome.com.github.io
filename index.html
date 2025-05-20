@@ -10,6 +10,7 @@
         :root {
             --primary-color: #4a90e2;
             --secondary-color: #50e3c2;
+            --highlight-color: #f57c00;
             --text-color: #333;
             --background-color: #f4f7f9;
             --card-background: white;
@@ -23,16 +24,17 @@
             line-height: 1.6;
             padding: 20px;
             margin: 0;
-            display: flex; /* Use flexbox for centering */
+            display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Ensure full viewport height */
+            min-height: 100vh;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
         }
 
         header {
@@ -42,15 +44,35 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px var(--shadow-color);
             margin-bottom: 30px;
-            display: flex; /* Added for button alignment */
-            justify-content: space-between; /* Added for button alignment */
-            align-items: center; /* Vertically center items */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
         h1 {
             font-size: 2.5em;
             margin: 0;
             text-align: center;
+        }
+
+        #logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--highlight-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        #logout-button:hover {
+            background-color: #e65100;
         }
 
         #datetime {
@@ -64,7 +86,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 20px 0;
+            margin: 40px 0 20px;
+            gap: 20px;
+        }
+
+        #copyStatus {
+            color: var(--secondary-color);
+            font-weight: bold;
+            display: none;
         }
 
         #search {
@@ -131,14 +160,7 @@
             box-shadow: 0 4px 8px var(--shadow-color);
         }
 
-        #copyStatus {
-            color: var(--secondary-color);
-            font-weight: bold;
-            margin-right: 10px;
-            display: none;
-        }
-
-        /* Login Screen Styles */
+        /* Login styles */
         #login-container {
             background-color: var(--card-background);
             border-radius: 10px;
@@ -181,32 +203,27 @@
             display: none;
         }
 
-        #logout-button { /* Added styles for the logout button */
-            background-color: #dc3545; /* Red background */
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background-color 0.3s ease;
-        }
-
-        #logout-button:hover {
-            background-color: #c82333; /* Darker red on hover */
-        }
-
         @media (max-width: 768px) {
             .button-container {
                 grid-template-columns: 1fr;
             }
-             #login-container {
+
+            #login-container {
                 width: 100%;
+            }
+
+            #logout-button {
+                top: 10px;
+                right: 10px;
+            }
+
+            .copy-link {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
 </head>
-
 <body>
     <div class="container" id="login-container">
         <h2>כניסה למערכת</h2>
@@ -223,17 +240,15 @@
     <div class="container" id="main-content" style="display: none;">
         <header>
             <h1>ניהול מערכת רישום נדרים פלוס</h1>
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <div id="datetime"></div>
-                <button id="logout-button" onclick="logout()">יציאה</button>  </div>
+            <button id="logout-button" onclick="logout()">🔒 יציאה</button>
         </header>
 
-      <div class="copy-link">
-    <button onclick="copyToClipboard()">העתק לינק לפרסום</button>
-    <button id="logout-button" onclick="logout()">🚪 יציאה</button>
-    <span id="copyStatus">הועתק בהצלחה!</span>
-</div>
+        <div id="datetime"></div>
 
+        <div class="copy-link">
+            <button onclick="copyToClipboard()">העתק לינק לפרסום</button>
+            <span id="copyStatus">הועתק בהצלחה!</span>
+        </div>
 
         <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">
 
@@ -329,10 +344,9 @@
             username = "";
             document.getElementById('main-content').style.display = 'none';
             document.getElementById('login-container').style.display = 'block';
-            document.getElementById('username').value = ""; // Clear input fields
+            document.getElementById('username').value = "";
             document.getElementById('password').value = "";
         }
-
 
         function updateDateTime() {
             const now = new Date();
@@ -392,18 +406,16 @@
         });
 
         window.onload = function () {
-           // אם הסיסמה נכונה, הצג את התוכן הראשי.
-           if (isPasswordCorrect) {
-               document.getElementById('login-container').style.display = 'none';
-               document.getElementById('main-content').style.display = 'block';
-               updateDateTime();
-               setInterval(updateDateTime, 1000);
-               renderSections();
-           } else {
-               // अदरवाइज, शो लॉगिन स्क्रीन
-               document.getElementById('login-container').style.display = 'block';
-               document.getElementById('main-content').style.display = 'none';
-           }
+            if (isPasswordCorrect) {
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                updateDateTime();
+                setInterval(updateDateTime, 1000);
+                renderSections();
+            } else {
+                document.getElementById('login-container').style.display = 'block';
+                document.getElementById('main-content').style.display = 'none';
+            }
         };
     </script>
 </body>

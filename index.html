@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול מערכות רישום ערלוי הכנסת אורחים</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="https://www.matara.pro/nedarimplus/Forms/Files/Pic/1395_logo.jpg">
     <style>
         :root {
@@ -80,6 +81,32 @@
             background-color: #c82333;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .email-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        .email-button:hover {
+            background-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: var(--secondary-color);
         }
 
         .copy-link {
@@ -232,11 +259,22 @@
                 font-size: 1.8em;
             }
             
-            #logout-button {
+            #logout-button,
+            .email-button {
                 top: 15px;
+            }
+            
+            #logout-button {
                 left: 15px;
                 padding: 6px 12px;
                 font-size: 0.85em;
+            }
+            
+            .email-button {
+                right: 15px;
+                width: 35px;
+                height: 35px;
+                font-size: 1em;
             }
             
             .container {
@@ -266,6 +304,9 @@
     <div class="container" id="main-content" style="display: none;">
         <header>
             <button id="logout-button" onclick="logout()">יציאה</button>
+            <a href="mailto:a048802181@gmail.com" class="email-button" title="שלח אימייל">
+                <i class="fas fa-envelope"></i>
+            </a>
             <h1>ניהול מערכת רישום נדרים פלוס</h1>
             <div id="datetime"></div>
         </header>
@@ -290,6 +331,7 @@
                 title: "ניהול כללי",
                 buttons: [
                     { text: "ממשק ניהול כללי", link: "https://matara.pro/nedarimplus/Reports" },
+                    { text: "ארכיון רשימות", link: "https://drive.google.com/drive/folders/1Zw0rNwtYjFd-TknTR2d5s_u4_0VWtJg8?usp=drive_link" },
                     { text: "קול כשר - מערכת טלפונית", link: "http://www.kolkasher.co.il/" },
                     { text: "תשלום חובות הכנסת אורחים ", link: "https://nedar.im/Lvom" },
                 ]
@@ -444,10 +486,6 @@
                document.getElementById('login-container').style.display = 'block';
                document.getElementById('main-content').style.display = 'none';
            }
-        };
-    </script>
-</body>
-</html>
         };
     </script>
 </body>

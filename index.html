@@ -157,16 +157,16 @@
             box-shadow: 0 5px 10px var(--shadow-color);
         }
 
-     .copy-status { 
-            color: var(--secondary-color);
-            font-weight: bold;
-            margin-right: 15px;
-            display: none;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 5px 12px;
-            border-radius: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+       .copy-status { 
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-right: 15px;
+            display: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 12px;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
         #login-container {
             background-color: var(--card-background);
@@ -246,13 +246,9 @@
         </header>
 
   <div class="copy-link">
-            <button onclick="copyToClipboard(CLIPBOARD_LINK_GUEST_HOUSE, this.nextElementSibling)">העתק לינק הכנסת אורחים </button>
-            <span class="copy-status">הועתק בהצלחה!</span>
-        </div>
-        <div class="copy-link">
-            <button onclick="copyToClipboard(CLIPBOARD_LINK_CHARITY_BOX, this.nextElementSibling)"> העתק לינק קופת צדקה   </button>
-            <span class="copy-status">הועתק בהצלחה!</span>
-        </div>
+            <button onclick="copyToClipboard(CLIPBOARD_LINK, this.nextElementSibling)">העתק לינק הכנסת אורחים </button>
+            <span class="copy-status">הועתק בהצלחה!</span>
+        </div>
 
         <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">
 
@@ -263,8 +259,6 @@
         const PASSWORD = "04880";
         const USERNAME = "ערלוי";
         const CLIPBOARD_LINK = "https://www.matara.pro/nedarimplus/online/?mosad=7007229";
-        const CLIPBOARD_LINK_CHARITY_BOX = "https://www.matara.pro/nedarimplus/online/?mosad=7015344"; 
-
 
         const sections = [
             {
@@ -363,19 +357,19 @@
             document.getElementById('datetime').textContent = now.toLocaleString('he-IL', options);
         }
 
-function copyToClipboard(linkToCopy, statusElement) { // הוספנו שני ארגומנטים: הלינק להעתקה ואלמנט הסטטוס
-            navigator.clipboard.writeText(linkToCopy) // משתמשים בלינק שהועבר כארגומנט
-                .then(() => {
-                    statusElement.style.display = 'inline'; // משתמשים באלמנט הסטטוס שהועבר
-                    setTimeout(() => {
-                        statusElement.style.display = 'none';
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('שגיאה בהעתקת הטקסט: ', err);
-                    alert('לא הצלחנו להעתיק את הלינק. אנא נסה שוב.');
-                });
-        }
+function copyToClipboard(linkToCopy, statusElement) {
+            navigator.clipboard.writeText(linkToCopy)
+                .then(() => {
+                    statusElement.style.display = 'inline';
+                    setTimeout(() => {
+                        statusElement.style.display = 'none';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('שגיאה בהעתקת הטקסט: ', err);
+                    alert('לא הצלחנו להעתיק את הלינק. אנא נסה שוב.');
+                });
+        }
 
         function renderSections(filteredSections = sections) {
             const container = document.getElementById('sections-container');
@@ -427,4 +421,4 @@ function copyToClipboard(linkToCopy, statusElement) { // הוספנו שני א�
         };
     </script>
 </body>
-</html>  
+</html>

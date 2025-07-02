@@ -124,4 +124,55 @@
         }
 
         h2 {
-            color: va
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ניהול מערכות רישום ערלוי הכנסת אורחים</h1>
+            <div id="datetime"></div>
+            <button id="logout-button">התנתקות</button>
+        </header>
+
+        <input type="text" id="search" placeholder="חיפוש...">
+
+        <div class="copy-link">
+            <button onclick="copyToClipboard('https://www.matara.pro/nedarimplus/Forms/2538.html')">
+                <i class="fas fa-link"></i> העתק לינק לטופס
+            </button>
+            <button onclick="copyToClipboard('https://www.matara.pro/nedarimplus/online/?mosad=7015344')">
+                <i class="fas fa-link"></i> העתק לינק לפרסום
+            </button>
+        </div>
+
+        <div class="section">
+            <h2>תוכן לדוגמה</h2>
+            <p>כאן יופיע תוכן לפי צורכי המערכת.</p>
+        </div>
+    </div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const dateTimeString = now.toLocaleString('he-IL', {
+                dateStyle: 'full',
+                timeStyle: 'short'
+            });
+            document.getElementById('datetime').textContent = dateTimeString;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("הקישור הועתק בהצלחה!");
+            }, () => {
+                alert("אירעה שגיאה בהעתקה.");
+            });
+        }
+
+        updateDateTime();
+        setInterval(updateDateTime, 60000); // עדכון כל דקה
+    </script>
+</body>
+</html>

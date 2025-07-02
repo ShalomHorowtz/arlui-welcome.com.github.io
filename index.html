@@ -90,9 +90,6 @@
             margin: 20px 0 30px;
             padding: 10px;
         }
-        .copy-link button + button {
-            margin-right: 10px; /* Add some space between the buttons */
-        }
 
         #search {
             width: 100%;
@@ -160,7 +157,7 @@
             box-shadow: 0 5px 10px var(--shadow-color);
         }
 
-        #copyStatus {
+        #copyStatus, #copyStatusCharity {
             color: var(--secondary-color);
             font-weight: bold;
             margin-right: 15px;
@@ -170,16 +167,6 @@
             border-radius: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        #copyStatus2 {
-            color: var(--secondary-color);
-            font-weight: bold;
-            margin-right: 15px;
-            display: none;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 5px 12px;
-            border-radius: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
 
         /* Login Screen Styles */
         #login-container {
@@ -259,8 +246,7 @@
             header {
                 padding: 20px 15px 15px;
             }
-        }
-    </style>
+        </style>
 </head>
 
 <body>
@@ -284,10 +270,10 @@
         </header>
 
         <div class="copy-link">
-            <button onclick="copyToClipboard(CLIPBOARD_LINK)">העתק לינק לפרסום</button>
+            <button onclick="copyToClipboard(CLIPBOARD_LINK, 'copyStatus')">העתק לינק לפרסום</button>
             <span id="copyStatus">הועתק בהצלחה!</span>
-            <button onclick="copyToClipboard(CLIPBOARD_LINK_2)">העתק לינק לפרסום 2</button>
-            <span id="copyStatus2">הועתק בהצלחה!</span>
+            <button onclick="copyToClipboard(CLIPBOARD_LINK_CHARITY, 'copyStatusCharity')">העתק לינק קופת צדקה</button>
+            <span id="copyStatusCharity">הועתק בהצלחה!</span>
         </div>
 
         <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">
@@ -299,7 +285,7 @@
         const PASSWORD = "04880";
         const USERNAME = "ערלוי";
         const CLIPBOARD_LINK = "https://www.matara.pro/nedarimplus/online/?mosad=7007229";
-        const CLIPBOARD_LINK_2 = "https://www.matara.pro/nedarimplus/online/?mosad=7015344";
+        const CLIPBOARD_LINK_CHARITY = "https://www.matara.pro/nedarimplus/online/?mosad=7015344";
 
 
         const sections = [
@@ -399,20 +385,10 @@
             document.getElementById('datetime').textContent = now.toLocaleString('he-IL', options);
         }
 
-        function copyToClipboard(link) {
-            let statusElementId;
-            if (link === CLIPBOARD_LINK) {
-                statusElementId = 'copyStatus';
-            } else if (link === CLIPBOARD_LINK_2) {
-                statusElementId = 'copyStatus2';
-            } else {
-                console.error("Unknown link provided for copyToClipboard");
-                return;
-            }
-
+        function copyToClipboard(link, statusId) {
             navigator.clipboard.writeText(link)
                 .then(() => {
-                    const copyStatus = document.getElementById(statusElementId);
+                    const copyStatus = document.getElementById(statusId);
                     copyStatus.style.display = 'inline';
                     setTimeout(() => {
                         copyStatus.style.display = 'none';

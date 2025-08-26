@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ניהול מערכות נדרים פלוס - ערלוי  </title>
+    <title>ניהול מערכות רישום ערלוי הכנסת אורחים</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="https://www.matara.pro/nedarimplus/Forms/Files/Pic/1395_logo.jpg">
@@ -253,7 +253,7 @@
 
     <div class="container" id="main-content" style="display: none;">
         <header>
-            <h1> ניהול מערכת רישום נדרים פלוס ערלוי</h1>
+            <h1>ניהול מערכת רישום נדרים פלוס</h1>
             <div id="datetime"></div>
             <button id="logout-button" onclick="logout()">יציאה</button>
             <button id="copy-link-button" onclick="copyToClipboard(CLIPBOARD_LINK)">העתק לינק הכנסת אורחים</button>
@@ -336,4 +336,99 @@
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('login-error');
 
-            if (username === US
+            if (username === USERNAME && password === PASSWORD) {
+                isPasswordCorrect = true;
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                updateDateTime();
+                setInterval(updateDateTime, 1000);
+                renderSections();
+            } else {
+                errorDiv.textContent = 'שם משתמש או סיסמה שגויים. אנא נסה שוב.';
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            isPasswordCorrect = false;
+            username = "";
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('login-container').style.display = 'block';
+            document.getElementById('username').value = "";
+            document.getElementById('password').value = "";
+            document.getElementById('login-error').style.display = 'none';
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('datetime').textContent = now.toLocaleString('he-IL', options);
+        }
+
+        function copyToClipboard(linkToCopy) {
+            navigator.clipboard.writeText(linkToCopy)
+                .then(() => {
+                    alert("הלינק הועתק בהצלחה!");
+                })
+                .catch(err => {
+                    console.error('שגיאה בהעתקת הטקסט: ', err);
+                    alert('לא הצלחנו להעתיק את הלינק. אנא נסה שוב.');
+                });
+        }
+
+        function renderSections(filteredSections = sections) {
+            const container = document.getElementById('sections-container');
+            container.innerHTML = '';
+
+            filteredSections.forEach(section => {
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'section';
+
+                const title = document.createElement('h2');
+                title.textContent = section.title;
+                sectionEl.appendChild(title);
+
+                const btnContainer = document.createElement('div');
+                btnContainer.className = 'button-container';
+
+                section.buttons.forEach(btn => {
+                    const link = document.createElement('a');
+                    link.href = btn.link;
+                    link.target = "_blank";
+
+                    const button = document.createElement('button');
+                    button.textContent = btn.text;
+
+                    link.appendChild(button);
+                    btnContainer.appendChild(link);
+                });
+
+                sectionEl.appendChild(btnContainer);
+                container.appendChild(sectionEl);
+            });
+        }
+
+        document.getElementById('search').addEventListener('input', function (e) {
+            const term = e.target.value.toLowerCase();
+            const filtered = sections.filter(s =>
+                s.title.toLowerCase().includes(term) ||
+                s.buttons.some(b => b.text.toLowerCase().includes(term))
+            );
+            renderSections(filtered);
+        });
+
+        window.onload = function () {
+            if (isPasswordCorrect) {
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                updateDateTime();
+                setInterval(updateDateTime, 1000);
+                renderSections();
+            } else {
+                document.getElementById('login-container').style.display = 'block';
+                document.getElementById('main-content').style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>

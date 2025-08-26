@@ -149,6 +149,7 @@
             font-weight: 500;
             text-align: center;
             box-shadow: 0 3px 6px var(--shadow-color);
+            width: 100%;
         }
 
         button:hover {
@@ -157,7 +158,12 @@
             box-shadow: 0 5px 10px var(--shadow-color);
         }
 
-       .copy-status { 
+        a {
+            text-decoration: none;
+            display: block;
+        }
+
+        .copy-status { 
             color: var(--secondary-color);
             font-weight: bold;
             margin-right: 15px;
@@ -245,7 +251,7 @@
             <div id="datetime"></div>
         </header>
 
-  <div class="copy-link">
+        <div class="copy-link">
             <button onclick="copyToClipboard(CLIPBOARD_LINK, this.nextElementSibling)">העתק לינק הכנסת אורחים </button>
             <span class="copy-status">הועתק בהצלחה!</span>
         </div>
@@ -357,7 +363,7 @@
             document.getElementById('datetime').textContent = now.toLocaleString('he-IL', options);
         }
 
-function copyToClipboard(linkToCopy, statusElement) {
+        function copyToClipboard(linkToCopy, statusElement) {
             navigator.clipboard.writeText(linkToCopy)
                 .then(() => {
                     statusElement.style.display = 'inline';
@@ -387,10 +393,15 @@ function copyToClipboard(linkToCopy, statusElement) {
                 btnContainer.className = 'button-container';
 
                 section.buttons.forEach(btn => {
+                    const link = document.createElement('a');
+                    link.href = btn.link;
+                    link.target = "_blank";
+
                     const button = document.createElement('button');
                     button.textContent = btn.text;
-                    button.onclick = () => window.open(btn.link, '_blank');
-                    btnContainer.appendChild(button);
+
+                    link.appendChild(button);
+                    btnContainer.appendChild(link);
                 });
 
                 sectionEl.appendChild(btnContainer);

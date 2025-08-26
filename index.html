@@ -58,19 +58,17 @@
             text-align: center;
             font-size: 1.2em;
             margin-top: 10px;
+            margin-bottom: 25px;
             opacity: 0.9;
         }
 
-        /* כפתורי הניהול בהדר - עיצוב מחודש */
+        /* כפתורי הניהול בהדר - מתחת לתאריך */
         .header-buttons {
             display: flex;
             gap: 15px;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            position: absolute;
-            top: 25px;
-            width: calc(100% - 50px);
-            left: 25px;
+            margin-top: 20px;
         }
 
         .header-button {
@@ -121,17 +119,14 @@
         /* התאמה למובייל */
         @media (max-width: 768px) {
             .header-buttons {
-                position: static;
-                width: 100%;
-                margin-top: 20px;
                 flex-direction: column;
                 gap: 10px;
+                margin-top: 15px;
             }
             
             .header-button {
                 width: 100%;
                 max-width: 250px;
-                margin: 0 auto;
             }
             
             header {
@@ -297,6 +292,8 @@
 
     <div class="container" id="main-content" style="display: none;">
         <header>
+            <h1>ניהול מערכת רישום נדרים פלוס</h1>
+            <div id="datetime"></div>
             <div class="header-buttons">
                 <button class="header-button logout-btn" onclick="logout()">
                     יציאה
@@ -305,8 +302,6 @@
                     העתק לינק הכנסת אורחים
                 </button>
             </div>
-            <h1>ניהול מערכת רישום נדרים פלוס</h1>
-            <div id="datetime"></div>
         </header>
 
         <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">

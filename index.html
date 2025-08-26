@@ -1,10 +1,9 @@
-You said:
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ניהול מערכות רישום ערלוי הכנסת אורחים</title>
+    <title>ניהול מערכות נדרים פלוס - ערלוי  </title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="https://www.matara.pro/nedarimplus/Forms/Files/Pic/1395_logo.jpg">
@@ -62,67 +61,57 @@ You said:
             opacity: 0.9;
         }
 
-        /* כפתור יציאה */
+        /* כפתור יציאה קטן אדום בפינה */
         #logout-button {
             position: absolute;
             top: 20px;
-            left: 20px;
+            left: 20px; /* ניתן לשנות ל-right אם רוצים בצד ימין */
             background-color: #dc3545;
             color: white;
             border: none;
-            padding: 10px 18px;
-            border-radius: 25px;
+            padding: 6px 12px;
+            border-radius: 15px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.9em;
             font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
             transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
         }
 
         #logout-button:hover {
             background-color: #c82333;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        .copy-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0 30px;
-            padding: 10px;
-            flex-direction: column;
-        }
-
-        .copy-link button {
+        /* כפתור העתק לינק */
+        #copy-link-button {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
+            padding: 10px 18px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
             font-size: 1em;
             font-weight: 500;
-            text-align: center;
-            box-shadow: 0 3px 6px var(--shadow-color);
-            margin-bottom: 10px;
+            box-shadow: 0 2px 6px var(--shadow-color);
+            transition: all 0.3s ease;
+            position: absolute;
+            top: 20px;
+            right: 20px;
         }
 
-        .copy-link button:hover {
+        #copy-link-button:hover {
             background-color: var(--secondary-color);
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px var(--shadow-color);
+            box-shadow: 0 4px 8px var(--shadow-color);
         }
 
         .copy-status { 
             color: var(--secondary-color);
             font-weight: bold;
+            margin-right: 10px;
             display: none;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 6px 14px;
-            border-radius: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         #search {
@@ -192,11 +181,6 @@ You said:
             box-shadow: 0 5px 10px var(--shadow-color);
         }
 
-        a {
-            text-decoration: none;
-            display: block;
-        }
-
         #login-container {
             background-color: var(--card-background);
             border-radius: 12px;
@@ -256,4 +240,100 @@ You said:
 </head>
 <body>
     <div class="container" id="login-container">
-        <h
+        <h2>כניסה למערכת</h2>
+        <input type="text" id="username" placeholder="שם משתמש">
+        <input type="password" id="password" placeholder="סיסמה">
+        <div id="login-error"></div>
+        <button onclick="login()">כניסה</button>
+        <p style="margin-top: 20px; font-size: 0.9em;">
+            לא מצליחים להיכנס? נא לפנות ל
+            <a href="mailto:h0556764462@gmail.com">h0556764462@gmail.com</a>
+        </p>
+    </div>
+
+    <div class="container" id="main-content" style="display: none;">
+        <header>
+            <h1> ניהול מערכת רישום נדרים פלוס ערלוי</h1>
+            <div id="datetime"></div>
+            <button id="logout-button" onclick="logout()">יציאה</button>
+            <button id="copy-link-button" onclick="copyToClipboard(CLIPBOARD_LINK)">העתק לינק הכנסת אורחים</button>
+        </header>
+
+        <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">
+        <div id="sections-container"></div>
+    </div>
+
+    <script>
+        const PASSWORD = "04880";
+        const USERNAME = "ערלוי";
+        const CLIPBOARD_LINK = "https://www.matara.pro/nedarimplus/online/?mosad=7007229";
+
+        const sections = [
+            {
+                title: "ניהול כללי",
+                buttons: [
+                    { text: "ממשק ניהול כללי", link: "https://matara.pro/nedarimplus/Reports" },
+                    { text: "זיכויים קובץ מתעדכן", link: "https://docs.google.com/spreadsheets/d/1FKn9UF5HlfTrQlPdyllNVbiRqKpQQHiTw4ysoV26QF4/edit?usp=sharing" },
+                    { text: "ארכיון רשימות", link: "https://drive.google.com/drive/folders/1Zw0rNwtYjFd-TknTR2d5s_u4_0VWtJg8?usp=drive_link" },
+                    { text: "קול כשר - מערכת טלפונית", link: "http://www.kolkasher.co.il/" },
+                    { text: "תשלום חובות הכנסת אורחים ", link: "https://nedar.im/Lvom" }
+                ]
+            },
+            {
+                title: "הכנסת אורחים",
+                buttons: [
+                    { text: "הפצה - הכנסת אורחים", link: "https://nedar.im/F1395" },
+                    { text: "מזומן - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?Mezuman=1" },
+                    { text: "ניהול - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?admin=1" }
+                ]
+            },
+            {
+                title: "עונג יו''ט",
+                buttons: [
+                    { text: "הפצה - עונג יוט", link: "https://nedar.im/F2667" },
+                    { text: "מזומן - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?m=1" },
+                    { text: "ניהול - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?admin=1" }
+                ]
+            },
+            {
+                title: "הסעות",
+                buttons: [
+                    { text: "הפצה - הסעות", link: "https://nedar.im/F2106" },
+                    { text: "מזומן- הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?num=1" },
+                    { text: "ניהול - הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?admin=1" }
+                ]
+            },
+            {
+                title: "קימחא דפיסחא / עדכון פרטים",
+                buttons: [
+                    { text: "הפצה - קימחא דפיסחא / עדכון פרטים", link: "https://nedar.im/F2538" },
+                    { text: "ניהול - קימחא דפיסחא / עדכון פרטים", link: "https://matara.pro/nedarimplus/Forms/2538.html?admin=1" }
+                ]
+            },
+            {
+                title: "מפי עוללים",
+                buttons: [
+                    { text: "הפצה - מפי עוללים", link: "https://nedar.im/F2896" },
+                    { text: "מזומן - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?num=1" },
+                    { text: "ניהול - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?admin=1" }
+                ]
+            },
+            {
+                title: "מכירת ספרים",
+                buttons: [
+                    { text: "הפצה - מכירת ספרים ", link: "https://nedar.im/F3363" },
+                    { text: "מזומן - מכירת ספרים ", link: "https://matara.pro/nedarimplus/Forms/3363.html?m=1" },
+                    { text: "ניהול - מכירת ספרים", link: "https://matara.pro/nedarimplus/Forms/3363.html?admin=1" }
+                ]
+            }
+        ];
+
+        let isPasswordCorrect = false;
+        let username = "";
+
+        function login() {
+            username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+
+            if (username === US

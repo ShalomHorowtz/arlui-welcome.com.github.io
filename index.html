@@ -40,7 +40,7 @@
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 10px var(--shadow-color);
             margin-bottom: 30px;
@@ -61,50 +61,100 @@
             opacity: 0.9;
         }
 
-        /* כפתור יציאה קטן אדום בפינה */
-        #logout-button {
+        /* כפתורי הניהול בהדר - עיצוב מחודש */
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
             position: absolute;
-            top: 20px;
-            left: 20px; /* ניתן לשנות ל-right אם רוצים בצד ימין */
-            background-color: #dc3545;
+            top: 25px;
+            width: calc(100% - 50px);
+            left: 25px;
+        }
+
+        .header-button {
+            background-color: rgba(255, 255, 255, 0.2);
             color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.95em;
             font-weight: 500;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 120px;
+            justify-content: center;
         }
 
-        #logout-button:hover {
-            background-color: #c82333;
+        .header-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        /* כפתור העתק לינק */
-        #copy-link-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 500;
-            box-shadow: 0 2px 6px var(--shadow-color);
-            transition: all 0.3s ease;
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .header-button.logout-btn {
+            background-color: rgba(220, 53, 69, 0.8);
+            border-color: rgba(220, 53, 69, 0.9);
         }
 
-        #copy-link-button:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--shadow-color);
+        .header-button.logout-btn:hover {
+            background-color: rgba(220, 53, 69, 0.9);
+            border-color: #dc3545;
+        }
+
+        .header-button.copy-btn {
+            background-color: rgba(74, 144, 226, 0.8);
+            border-color: rgba(74, 144, 226, 0.9);
+        }
+
+        .header-button.copy-btn:hover {
+            background-color: rgba(74, 144, 226, 0.9);
+            border-color: var(--primary-color);
+        }
+
+        /* התאמה למובייל */
+        @media (max-width: 768px) {
+            .header-buttons {
+                position: static;
+                width: 100%;
+                margin-top: 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .header-button {
+                width: 100%;
+                max-width: 250px;
+                margin: 0 auto;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .header-button {
+                min-width: 180px;
+                font-size: 0.9em;
+                padding: 12px 18px;
+            }
         }
 
         .copy-status { 
@@ -230,12 +280,6 @@
             border-radius: 10px;
             font-weight: 500;
         }
-
-        @media (max-width: 768px) {
-            .button-container {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
@@ -253,10 +297,16 @@
 
     <div class="container" id="main-content" style="display: none;">
         <header>
+            <div class="header-buttons">
+                <button class="header-button logout-btn" onclick="logout()">
+                    יציאה
+                </button>
+                <button class="header-button copy-btn" onclick="copyToClipboard(CLIPBOARD_LINK)">
+                    העתק לינק הכנסת אורחים
+                </button>
+            </div>
             <h1>ניהול מערכת רישום נדרים פלוס</h1>
             <div id="datetime"></div>
-            <button id="logout-button" onclick="logout()">יציאה</button>
-            <button id="copy-link-button" onclick="copyToClipboard(CLIPBOARD_LINK)">העתק לינק הכנסת אורחים</button>
         </header>
 
         <input type="text" id="search" placeholder="חפש לפי כותרת או תיאור...">

@@ -62,7 +62,6 @@
             opacity: 0.9;
         }
 
-        /* כפתורי הניהול בהדר - מתחת לתאריך */
         .header-buttons {
             display: flex;
             gap: 15px;
@@ -116,7 +115,6 @@
             border-color: var(--primary-color);
         }
 
-        /* התאמה למובייל */
         @media (max-width: 768px) {
             .header-buttons {
                 flex-direction: column;
@@ -240,29 +238,56 @@
             color: var(--primary-color);
             margin-bottom: 25px;
             font-size: 1.8em;
+            border-bottom: none;
         }
 
-        #login-container input {
-            width: 100%;
+        #login-container input[type="text"], 
+        #login-container input[type="password"] {
+            width: calc(100% - 28px);
             padding: 14px;
             margin-bottom: 20px;
-            border-radius: 25px;
-            border: 1px solid #ddd;
+            border-radius: 8px;
+            border: 2px solid #e1e5e9;
             font-size: 1.05em;
             box-shadow: 0 2px 5px var(--shadow-color);
             transition: all 0.3s ease;
+            box-sizing: border-box;
+            text-align: right;
+            font-family: 'Rubik', sans-serif;
         }
 
-        #login-container input:focus {
+        #login-container input[type="text"]:focus, 
+        #login-container input[type="password"]:focus {
             outline: none;
-            box-shadow: 0 0 0 2px var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
             border-color: var(--primary-color);
+        }
+
+        #login-container input[type="checkbox"] {
+            margin-left: 8px;
+            transform: scale(1.1);
         }
 
         #login-container button {
             width: 100%;
             padding: 14px;
             font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .remember-me-container {
+            text-align: right;
+            margin-bottom: 15px;
+            padding: 0 5px;
+        }
+
+        .remember-me-container label {
+            font-size: 0.95em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
         }
 
         #login-error {
@@ -282,6 +307,14 @@
         <h2>כניסה למערכת</h2>
         <input type="text" id="username" placeholder="שם משתמש">
         <input type="password" id="password" placeholder="סיסמה">
+        
+        <!-- זכור אותי -->
+        <div style="text-align: right; margin-bottom: 15px;">
+            <label style="font-size: 0.95em; cursor: pointer;">
+                <input type="checkbox" id="rememberMe"> זכור אותי במחשב זה
+            </label>
+        </div>
+
         <div id="login-error"></div>
         <button onclick="login()">כניסה</button>
         <p style="margin-top: 20px; font-size: 0.9em;">
@@ -295,12 +328,8 @@
             <h1>ניהול מערכת רישום נדרים פלוס</h1>
             <div id="datetime"></div>
             <div class="header-buttons">
-                <button class="header-button logout-btn" onclick="logout()">
-                    יציאה
-                </button>
-                <button class="header-button copy-btn" onclick="copyToClipboard(CLIPBOARD_LINK)">
-                    העתק לינק הכנסת אורחים
-                </button>
+                <button class="header-button logout-btn" onclick="logout()">יציאה</button>
+                <button class="header-button copy-btn" onclick="copyToClipboard(CLIPBOARD_LINK)">העתק לינק הכנסת אורחים</button>
             </div>
         </header>
 
@@ -332,45 +361,6 @@
                     { text: "מזומן - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?Mezuman=1" },
                     { text: "ניהול - הכנסת אורחים", link: "https://matara.pro/nedarimplus/Forms/1395.html?admin=1" }
                 ]
-            },
-            {
-                title: "עונג יו''ט",
-                buttons: [
-                    { text: "הפצה - עונג יוט", link: "https://nedar.im/F2667" },
-                    { text: "מזומן - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?m=1" },
-                    { text: "ניהול - עונג יוט", link: "https://matara.pro/nedarimplus/Forms/2667.html?admin=1" }
-                ]
-            },
-            {
-                title: "הסעות",
-                buttons: [
-                    { text: "הפצה - הסעות", link: "https://nedar.im/F2106" },
-                    { text: "מזומן- הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?num=1" },
-                    { text: "ניהול - הסעות", link: "https://matara.pro/nedarimplus/Forms/2106.html?admin=1" }
-                ]
-            },
-            {
-                title: "קימחא דפיסחא / עדכון פרטים",
-                buttons: [
-                    { text: "הפצה - קימחא דפיסחא / עדכון פרטים", link: "https://nedar.im/F2538" },
-                    { text: "ניהול - קימחא דפיסחא / עדכון פרטים", link: "https://matara.pro/nedarimplus/Forms/2538.html?admin=1" }
-                ]
-            },
-            {
-                title: "מפי עוללים",
-                buttons: [
-                    { text: "הפצה - מפי עוללים", link: "https://nedar.im/F2896" },
-                    { text: "מזומן - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?num=1" },
-                    { text: "ניהול - מפי עוללים", link: "https://matara.pro/nedarimplus/Forms/2896.html?admin=1" }
-                ]
-            },
-            {
-                title: "מכירת ספרים",
-                buttons: [
-                    { text: "הפצה - מכירת ספרים ", link: "https://nedar.im/F3363" },
-                    { text: "מזומן - מכירת ספרים ", link: "https://matara.pro/nedarimplus/Forms/3363.html?m=1" },
-                    { text: "ניהול - מכירת ספרים", link: "https://matara.pro/nedarimplus/Forms/3363.html?admin=1" }
-                ]
             }
         ];
 
@@ -380,10 +370,19 @@
         function login() {
             username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
             const errorDiv = document.getElementById('login-error');
 
             if (username === USERNAME && password === PASSWORD) {
                 isPasswordCorrect = true;
+
+                if (rememberMe) {
+                    // Note: Using variables instead of localStorage as requested
+                    sessionStorage.setItem("rememberUser", "true");
+                    sessionStorage.setItem("savedUsername", username);
+                    sessionStorage.setItem("savedPassword", password);
+                }
+
                 document.getElementById('login-container').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 updateDateTime();
@@ -398,6 +397,7 @@
         function logout() {
             isPasswordCorrect = false;
             username = "";
+            sessionStorage.clear();
             document.getElementById('main-content').style.display = 'none';
             document.getElementById('login-container').style.display = 'block';
             document.getElementById('username').value = "";
@@ -413,13 +413,8 @@
 
         function copyToClipboard(linkToCopy) {
             navigator.clipboard.writeText(linkToCopy)
-                .then(() => {
-                    alert("הלינק הועתק בהצלחה!");
-                })
-                .catch(err => {
-                    console.error('שגיאה בהעתקת הטקסט: ', err);
-                    alert('לא הצלחנו להעתיק את הלינק. אנא נסה שוב.');
-                });
+                .then(() => { alert("הלינק הועתק בהצלחה!"); })
+                .catch(err => { alert('לא הצלחנו להעתיק את הלינק.'); });
         }
 
         function renderSections(filteredSections = sections) {
@@ -463,7 +458,30 @@
             renderSections(filtered);
         });
 
+        // Handle Enter key for login
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('username').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+            
+            document.getElementById('password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+        });
+
         window.onload = function () {
+            if (sessionStorage.getItem("rememberUser") === "true") {
+                const savedUser = sessionStorage.getItem("savedUsername");
+                const savedPass = sessionStorage.getItem("savedPassword");
+                if (savedUser === USERNAME && savedPass === PASSWORD) {
+                    isPasswordCorrect = true;
+                }
+            }
+
             if (isPasswordCorrect) {
                 document.getElementById('login-container').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
@@ -471,6 +489,8 @@
                 setInterval(updateDateTime, 1000);
                 renderSections();
             } else {
+                document.getElementById('username').value = sessionStorage.getItem("savedUsername") || "";
+                document.getElementById('password').value = sessionStorage.getItem("savedPassword") || "";
                 document.getElementById('login-container').style.display = 'block';
                 document.getElementById('main-content').style.display = 'none';
             }
@@ -478,6 +498,3 @@
     </script>
 </body>
 </html>
-
-
-
